@@ -1,0 +1,19 @@
+---
+title: "TITLE"
+author: "Amaya McMillin, Ashley Fong, Constantine Golematis, Rayne Lejano"
+format: html
+editor: visual
+embed-resources: true
+code-tools: true
+code-fold: true
+---
+
+# 1 Project Proposal & Data
+
+## 1.1 Data Cleaning
+
+## 1.2 Pivoting Longer
+
+## 1.3 Joining Data
+
+
