@@ -3113,7 +3113,15 @@ vertical-align: -.125em;
 
 <section id="project-proposal-data" class="level1">
 <h1>1 Project Proposal &amp; Data</h1>
-<p>Describing data - data source(s) - observational unit/level (country, year) - overview of what is included (demographic information, county, year) - year or geographics included</p>
+<p><strong>Data:</strong></p>
+<p>In this analysis, we are exploring two datasets: <strong>life expectancy at birth</strong> and <strong>fish and seafood consumption per capita</strong>. Could eating seafood be correlated with longevity?</p>
+<p>Data Source:</p>
+<p>We have sourced both of our datasets from <strong>Gapminder</strong> which is an independent foundation that works to combine data from multiple sources and fill in gaps in data in order to create more complete datasets that provide us with a chronological story of information. In both these datasets, Gapminder defines the geogrphic boundaries of the country variable as where the border currently lay.</p>
+<p>Life Expectancy Dataset:</p>
+<p>The life expectancy dataset provides data on the <strong>number of years</strong> a newborn infant is expected to live based on the <strong>year of birth</strong> and **country of birth*. This data ranges from 1800 to 2100 and contains information from 196 different countries.</p>
+<p>Fish and Seafood Consumption Dataset:</p>
+<p>The fish and seafood consumption dataset provides data on the <strong>average supply of fish and seafood across the population</strong> and is measured in <strong>kilograms per person per year</strong> based on the <strong>year</strong> and <strong>country</strong>. In this dataset, the supply is defined as the amount available for human consumption in that country including food imported and produced, but excluding food exported, used for animals, or distribution wasted (not household waste). Based on this definition of consumption, it is likely that there are overestimates of actual consumption. This data ranges from 1961 to 2018 and contains information from 170 different countries.</p>
+<p><strong>Hypothesis:</strong></p>
 <section id="data-cleaning" class="level2">
 <h2 class="anchored" data-anchor-id="data-cleaning">1.1 Data Cleaning</h2>
 <ul>
@@ -3614,29 +3622,40 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu"># 1 Project Proposal &amp; Data</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, include = FALSE}</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="in">library(tidyverse)</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="in">library(gt)</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="in">seafood &lt;- read_csv(&quot;fisfod_cons_pc.csv&quot;)</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="in">lex &lt;- read_csv(&quot;lex.csv&quot;)</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>Describing data</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>data source(s)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>observational unit/level (country, year)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>overview of what is included (demographic information, county, year)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>year or geographics included</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1.1 Data Cleaning</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>how is missing data handled </span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>how are variables defined</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>observations dropped (how many and why)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>**Data:**</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, include = FALSE}</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="in">library(tidyverse)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="in">library(gt)</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="in">seafood &lt;- read_csv(&quot;fisfod_cons_pc.csv&quot;)</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="in">lex &lt;- read_csv(&quot;lex.csv&quot;)</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>In this analysis, we are exploring two datasets: **life expectancy at birth** and **fish and seafood consumption per capita**. Could eating seafood be correlated with longevity?</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>Data Source: </span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>We have sourced both of our datasets from **Gapminder** which is an independent foundation that works to combine data from multiple sources and fill in gaps in data in order to create more complete datasets that provide us with a chronological story of information. In both these datasets, Gapminder defines the geogrphic boundaries of the country variable as where the border currently lay. </span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>Life Expectancy Dataset:</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>The life expectancy dataset provides data on the **number of years** a newborn infant is expected to live based on the **year of birth** and **country of birth*. This data ranges from 1800 to 2100 and contains information from 196 different countries.</span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1.2 Pivoting Longer</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>Fish and Seafood Consumption Dataset:</span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1.3 Joining Data</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></pre></div>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>The fish and seafood consumption dataset provides data on the **average supply of fish and seafood across the population** and is measured in **kilograms per person per year** based on the **year** and **country**. In this dataset, the supply is defined as the amount available for human consumption in that country including food imported and produced, but excluding food exported, used for animals, or distribution wasted (not household waste). Based on this definition of consumption, it is likely that there are overestimates of actual consumption. This data ranges from 1961 to 2018 and contains information from 170 different countries.</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>**Hypothesis:**</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1.1 Data Cleaning</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>how is missing data handled </span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>how are variables defined</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>observations dropped (how many and why)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1.2 Pivoting Longer</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1.3 Joining Data</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

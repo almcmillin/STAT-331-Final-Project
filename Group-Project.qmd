@@ -10,6 +10,7 @@ code-fold: true
 
 # 1 Project Proposal & Data
 
+**Data:**
 ```{r, include = FALSE}
 library(tidyverse)
 library(gt)
@@ -18,11 +19,21 @@ seafood <- read_csv("fisfod_cons_pc.csv")
 lex <- read_csv("lex.csv")
 ```
 
-Describing data
-- data source(s)
-- observational unit/level (country, year)
-- overview of what is included (demographic information, county, year)
-- year or geographics included
+In this analysis, we are exploring two datasets: **life expectancy at birth** and **fish and seafood consumption per capita**. Could eating seafood be correlated with longevity?
+
+Data Source: 
+
+We have sourced both of our datasets from **Gapminder** which is an independent foundation that works to combine data from multiple sources and fill in gaps in data in order to create more complete datasets that provide us with a chronological story of information. In both these datasets, Gapminder defines the geogrphic boundaries of the country variable as where the border currently lay. 
+
+Life Expectancy Dataset:
+
+The life expectancy dataset provides data on the **number of years** a newborn infant is expected to live based on the **year of birth** and **country of birth*. This data ranges from 1800 to 2100 and contains information from 196 different countries.
+
+Fish and Seafood Consumption Dataset:
+
+The fish and seafood consumption dataset provides data on the **average supply of fish and seafood across the population** and is measured in **kilograms per person per year** based on the **year** and **country**. In this dataset, the supply is defined as the amount available for human consumption in that country including food imported and produced, but excluding food exported, used for animals, or distribution wasted (not household waste). Based on this definition of consumption, it is likely that there are overestimates of actual consumption. This data ranges from 1961 to 2018 and contains information from 170 different countries.
+
+**Hypothesis:**
 
 ## 1.1 Data Cleaning
 - how is missing data handled 
