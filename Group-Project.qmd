@@ -10,7 +10,24 @@ code-fold: true
 
 # 1 Project Proposal & Data
 
+```{r, include = FALSE}
+library(tidyverse)
+library(gt)
+
+seafood <- read_csv("fisfod_cons_pc.csv")
+lex <- read_csv("lex.csv")
+```
+
+Describing data
+- data source(s)
+- observational unit/level (country, year)
+- overview of what is included (demographic information, county, year)
+- year or geographics included
+
 ## 1.1 Data Cleaning
+- how is missing data handled 
+- how are variables defined
+- observations dropped (how many and why)
 
 ## 1.2 Pivoting Longer
 
