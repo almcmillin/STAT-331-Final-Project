@@ -11,6 +11,7 @@ code-fold: true
 # 1 Project Proposal & Data
 
 **Data:**
+
 ```{r, include = FALSE}
 library(tidyverse)
 library(gt)
@@ -21,13 +22,13 @@ lex <- read_csv("lex.csv")
 
 In this analysis, we are exploring two datasets: **life expectancy at birth** and **fish and seafood consumption per capita**. Could eating seafood be correlated with longevity?
 
-Data Source: 
+Data Source:
 
-We have sourced both of our datasets from **Gapminder** which is an independent foundation that works to combine data from multiple sources and fill in gaps in data in order to create more complete datasets that provide us with a chronological story of information. In both these datasets, Gapminder defines the geogrphic boundaries of the country variable as where the border currently lay. 
+We have sourced both of our datasets from **Gapminder** which is an independent foundation that works to combine data from multiple sources and fill in gaps in data in order to create more complete datasets that provide us with a chronological story of information. In both these datasets, Gapminder defines the geogrphic boundaries of the country variable as where the border currently lay.
 
 Life Expectancy Dataset:
 
-The life expectancy dataset provides data on the **number of years** a newborn infant is expected to live based on the **year of birth** and **country of birth*. This data ranges from 1800 to 2100 and contains information from 196 different countries.
+The life expectancy dataset provides data on the **number of years** a newborn infant is expected to live based on the **year of birth** and \*\*country of birth\*. This data ranges from 1800 to 2100 and contains information from 196 different countries.
 
 Fish and Seafood Consumption Dataset:
 
@@ -35,13 +36,43 @@ The fish and seafood consumption dataset provides data on the **average supply o
 
 **Hypothesis:**
 
+We hypothesize that higher seafood consumption is associated with a greater life expectancy across countries. Seafood is linked to various health benefits, including improved cognitive function and improved cardiovascular health. By examining the relationship between the two variables, we can explore if this hypothesis reigns true.
+
 ## 1.1 Data Cleaning
-- how is missing data handled 
-- how are variables defined
-- observations dropped (how many and why)
+
+-   how is missing data handled
+-   how are variables defined
+-   observations dropped (how many and why)
+
+```{r}
+
+```
 
 ## 1.2 Pivoting Longer
 
+In order to join the data sets, we must first pivot the data. Each data set contains one column with the country, and every other column is the year. Performing a join with the original data sets would make further analysis difficult, since there would be multiple of the same years, and it would be difficult to differentiate between which year column tells us what.
+
+```{r}
+life_expectancy_long <- lex |>
+  pivot_longer(cols = -country,
+               names_to = 'year',
+               values_to = 'life_expectancy') |>
+  mutate(year = as.factor(year))
+
+seafood_long <- seafood |>
+  pivot_longer(cols = -country, 
+               names_to = 'year',
+               values_to = 'kg_seafood') |>
+  mutate(year = as.factor(year))
+
+
+```
+
 ## 1.3 Joining Data
 
+Now that we have pivoted the data, we can join the new data sets to perform our analysis. We will be using an inner join so we can keep only the data that is present in both data sets.
 
+```{r}
+full_data <- life_expectancy_long |>
+  inner_join(seafood_long, by = c('country', 'year'))
+```
