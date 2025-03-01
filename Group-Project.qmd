@@ -1,5 +1,5 @@
 ---
-title: "TITLE"
+title: "Exploring the Relationship Between Seafood Consumption and Life Expectancy"
 author: "Amaya McMillin, Ashley Fong, Constantine Golematis, Rayne Lejano"
 format: html
 editor: visual
