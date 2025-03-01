@@ -44,8 +44,14 @@ We hypothesize that higher seafood consumption is associated with a greater life
 -   how are variables defined
 -   observations dropped (how many and why)
 
-```{r}
+Many values in both data sets are recorded as N/A. To ensure a complete analysis, we have chosen to replace these missing values with the average of their respective rows.
 
+```{r}
+lex[-1] <- lex[-1] |>
+  mutate(across(everything(), ~ ifelse(is.na(.), mean(., na.rm = TRUE), .)))
+
+seafood[-1] <- seafood[-1] |>
+  mutate(across(everything(), ~ ifelse(is.na(.), mean(., na.rm = TRUE), .)))
 ```
 
 ## 1.2 Pivoting Longer
