@@ -1,5 +1,5 @@
 ---
-title: "TITLE"
+title: "Exploring the Relationship Between Seafood Consumption and Life Expectancy"
 author: "Amaya McMillin, Ashley Fong, Constantine Golematis, Rayne Lejano"
 format: html
 editor: visual
@@ -14,43 +14,46 @@ code-fold: true
 
 ```{r, include = FALSE}
 library(tidyverse)
-library(gt)
 
 seafood <- read_csv("fisfod_cons_pc.csv")
 lex <- read_csv("lex.csv")
 ```
 
-In this analysis, we are exploring two datasets: **life expectancy at birth** and **fish and seafood consumption per capita**. Could eating seafood be correlated with longevity?
+### Exploring the Relationship Between Seafood Consumption and Life Expectancy
 
-Data Source:
+#### Data Sources
 
-We have sourced both of our datasets from **Gapminder** which is an independent foundation that works to combine data from multiple sources and fill in gaps in data in order to create more complete datasets that provide us with a chronological story of information. In both these datasets, Gapminder defines the geogrphic boundaries of the country variable as where the border currently lay.
+This analysis examines two datasets from Gapminder: life expectancy at birth and fish and seafood consumption per capita. Gapminder, an independent foundation, compiles data from multiple sources, filling gaps to create comprehensive historical datasets. Notably, the country variable in both datasets reflects current geopolitical boundaries.
 
-Life Expectancy Dataset:
+#### Life Expectancy Dataset
 
-The life expectancy dataset provides data on the **number of years** a newborn infant is expected to live based on the **year of birth** and \*\*country of birth\*. This data ranges from 1800 to 2100 and contains information from 196 different countries.
+This dataset provides the expected lifespan of a newborn based on birth year and country. It spans from 1800 to 2100, covering 196 countries.
 
-Fish and Seafood Consumption Dataset:
+#### Fish and Seafood Consumption Dataset
 
-The fish and seafood consumption dataset provides data on the **average supply of fish and seafood across the population** and is measured in **kilograms per person per year** based on the **year** and **country**. In this dataset, the supply is defined as the amount available for human consumption in that country including food imported and produced, but excluding food exported, used for animals, or distribution wasted (not household waste). Based on this definition of consumption, it is likely that there are overestimates of actual consumption. This data ranges from 1961 to 2018 and contains information from 170 different countries.
+This dataset records the average annual per capita availability of fish and seafood (in kilograms), accounting for imports and domestic production while excluding exports, animal feed, and distribution losses. While this measure reflects overall supply rather than direct consumption, it offers a useful proxy. The dataset spans from 1961 to 2018 and includes 170 countries.
 
-**Hypothesis:**
+#### Hypothesis
 
-We hypothesize that higher seafood consumption is associated with a greater life expectancy across countries. Seafood is linked to various health benefits, including improved cognitive function and improved cardiovascular health. By examining the relationship between the two variables, we can explore if this hypothesis reigns true.
+We hypothesize that higher seafood consumption is positively correlated with life expectancy. Seafood is associated with numerous health benefits, including improved cognitive function and cardiovascular health. By analyzing these datasets, we aim to determine whether increased seafood consumption aligns with longer lifespans across countries.
 
 ## 1.1 Data Cleaning
 
--   how is missing data handled
--   how are variables defined
--   observations dropped (how many and why)
+Many values in both datasets are recorded as N/A, which could hinder our ability to conduct a thorough analysis. To address this issue and maintain data integrity, we have chosen to replace these missing values with the average of their respective rows. This approach ensures that each data point remains as representative as possible while minimizing potential biases introduced by missing values. By using row averages, we preserve the overall structure of the data while allowing for meaningful comparisons across observations.
 
 ```{r}
+lex[-1] <- lex[-1] |>
+  mutate(across(everything(), ~ ifelse(is.na(.), mean(., na.rm = TRUE), .)))
 
+seafood[-1] <- seafood[-1] |>
+  mutate(across(everything(), ~ ifelse(is.na(.), mean(., na.rm = TRUE), .)))
 ```
 
 ## 1.2 Pivoting Longer
 
-In order to join the data sets, we must first pivot the data. Each data set contains one column with the country, and every other column is the year. Performing a join with the original data sets would make further analysis difficult, since there would be multiple of the same years, and it would be difficult to differentiate between which year column tells us what.
+To successfully merge the two datasets, we must first convert them from a wide format to a long format. In their current structure, each dataset contains a single column for the country, while the remaining columns correspond to different years. If we were to attempt a direct join in this wide format, we would end up with multiple columns for each year---one from each dataset---making it challenging to distinguish which values belong to which dataset.
+
+By pivoting the datasets to a long format, we restructure the data so that instead of having separate columns for each year, we create two columns: one for the year and another for the corresponding value (either life expectancy or seafood consumption). This transformation standardizes the structure of both datasets, allowing for a clean and efficient merge based on country and year. As a result, each row will uniquely represent a specific country-year combination, with separate columns indicating life expectancy and seafood consumption, facilitating a clearer and more interpretable analysis.
 
 ```{r}
 life_expectancy_long <- lex |>
@@ -64,13 +67,15 @@ seafood_long <- seafood |>
                names_to = 'year',
                values_to = 'kg_seafood') |>
   mutate(year = as.factor(year))
-
-
 ```
 
 ## 1.3 Joining Data
 
-Now that we have pivoted the data, we can join the new data sets to perform our analysis. We will be using an inner join so we can keep only the data that is present in both data sets.
+Now that we have transformed both datasets into a long format, we can proceed with merging them to perform our analysis. To ensure consistency, we will use an inner join, which retains only the observations that appear in both datasets.
+
+The life expectancy dataset spans from 1800 to 2100, while the seafood consumption dataset covers the years 1961 to 2018. Since these datasets have different time ranges, an inner join ensures that we only analyze data for years that are present in both datasets---specifically, the period from 1961 to 2018. This approach prevents us from introducing missing values into our analysis and ensures that every observation contains both life expectancy and seafood consumption data.
+
+By merging the datasets in this manner, we create a refined dataset where each row represents a unique country-year combination, with corresponding values for both variables. This standardized structure allows us to effectively explore the relationship between seafood consumption and life expectancy across different countries and time periods.
 
 ```{r}
 full_data <- life_expectancy_long |>
