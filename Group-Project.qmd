@@ -14,6 +14,9 @@ code-fold: true
 
 ```{r, include = FALSE}
 library(tidyverse)
+library(gganimate)
+library(glue)
+library(gifski)
 
 seafood <- read_csv("fisfod_cons_pc.csv")
 lex <- read_csv("lex.csv")
@@ -81,3 +84,38 @@ By merging the datasets in this manner, we create a refined dataset where each r
 full_data <- life_expectancy_long |>
   inner_join(seafood_long, by = c('country', 'year'))
 ```
+
+# 2 Linear Regression
+
+## 2.1 Data Visualization
+
+```{r}
+full_data |>
+  ggplot(aes(x = kg_seafood,
+             y = life_expectancy)) +
+  geom_point() + 
+  labs(x = "Seafood Consumption (kg)",
+       y = NULL,
+       subtitle = "Life Expectancy (years)",
+       title = "Relationship between seafood consumption and life expectancy")
+```
+
+```{r}
+full_data <- full_data |>
+  mutate(year = as.numeric(year))
+
+full_data |>
+  ggplot(aes(x = kg_seafood,
+             y = life_expectancy)) +
+  geom_point() + 
+  labs(x = "Seafood Consumption (kg)",
+       y = "Life Expectancy (years)",
+       subtitle = 'Year: {frame_time}',
+       title = "Relationship between seafood consumption and life expectancy") +
+  transition_time(year) +
+  ease_aes('linear')
+```
+
+## 2.2 Linear Regression
+
+## 2.3 Model Fit
