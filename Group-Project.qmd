@@ -101,8 +101,10 @@ full_data |>
 ```
 
 ```{r}
+# RUNNING THIS CHUNK WILL MAKE A LOT OF IMAGES
+
 full_data <- full_data |>
-  mutate(year = as.numeric(year))
+  mutate(year_numeric = as.integer(as.character(year)))
 
 full_data |>
   ggplot(aes(x = kg_seafood,
@@ -112,7 +114,7 @@ full_data |>
        y = "Life Expectancy (years)",
        subtitle = 'Year: {frame_time}',
        title = "Relationship between seafood consumption and life expectancy") +
-  transition_time(year) +
+  transition_time(year_numeric) +
   ease_aes('linear')
 ```
 
