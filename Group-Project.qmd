@@ -91,16 +91,25 @@ full_data <- life_expectancy_long |>
 
 ## 2.1 Data Visualization
 
+In this section, we aim to visualize the relationship between our variables.
+
+Below is a graph that shows the relationship between seafood consumption in kg and life expectancy in years for data from different countries and years.
+
 ```{r}
 full_data |>
   ggplot(aes(x = kg_seafood,
              y = life_expectancy)) +
   geom_point() + 
+  geom_smooth(method = "lm") +
   labs(x = "Seafood Consumption (kg)",
        y = NULL,
        subtitle = "Life Expectancy (years)",
        title = "Relationship between seafood consumption and life expectancy")
 ```
+
+This visualization suggests that there is a positive correlation between country's seafood consumption and their resident's life expectancy. However, the scatterplot reveals that there is a lot of variability in the data as higher seafood consumption often results in moderate life expectancy.
+
+Below is an animation showing the relationship between seafood consumption and life expectancy for different countries year by year.
 
 ```{r}
 # RUNNING THIS CHUNK WILL MAKE A LOT OF IMAGES
@@ -119,6 +128,8 @@ full_data |>
   transition_time(year_numeric) +
   ease_aes('linear')
 ```
+
+This animated visualization explores this relationship year-by-year and the changes that occur. In the animation, we can see that life expectancy consistently increases each year -- this is largely due to overall health improvements worldwide as time goes on. Additionally, the amount of seafood consumption also increases intermittently. 
 
 ## 2.2 Linear Regression
 
@@ -171,6 +182,8 @@ life_expectancy_lm |>
              color = "red", lwd = 1.5)
 ```
 
+Below is a table that summarizes the variance of response, fitted values, and residuals which gives us information on the model's effectiveness.
+
 ```{r}
 var_response <- var(full_data_avg$avg_life_expectancy)
 var_fitted <- var(fitted(life_expectancy_lm))
@@ -182,6 +195,12 @@ variance_table <- data.frame(
 
 
 variance_table |>
-  kable("html", digits = 3, col.names = c("Metric", "Variance")) |>
-  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover"))
+  kable(caption = "Model Fit Metrics",
+        "html", 
+        digits = 3, 
+        col.names = c("Metric", "Variance")) |>
+  kable_styling(full_width = FALSE, 
+                bootstrap_options = c("striped", "hover"))
 ```
+
+From our table, we can see that the variance of response is 71.64 and of that, only 5.41 is explained by our explanatory variable. The remaining 66.23 from the variance of residuals represents what is not being explained by seafood consumption. Since the variance of residuals is significantly greater than the variance of fitted values, this suggests that seafood consumption alone does not adequetely explain the differences in life expectancy across countries.
