@@ -17,6 +17,7 @@ library(tidyverse)
 library(gganimate)
 library(glue)
 library(gifski)
+library(broom)
 
 seafood <- read_csv("fisfod_cons_pc.csv")
 lex <- read_csv("lex.csv")
@@ -120,4 +121,35 @@ full_data |>
 
 ## 2.2 Linear Regression
 
+```{r}
+full_data_avg <- full_data |>
+  group_by(country) |>
+  summarize(avg_life_expectancy = mean(life_expectancy),
+            avg_seafood_consumption = mean(kg_seafood))
+
+life_expectancy_lm <- lm(avg_life_expectancy ~ avg_seafood_consumption, data = full_data_avg)
+
+summary(life_expectancy_lm)
+```
+
 ## 2.3 Model Fit
+
+```{r}
+#Scatterplot to check if data is linear
+
+full_data_avg |>
+  ggplot(aes(x = avg_seafood_consumption,
+             y = avg_life_expectancy)) +
+  geom_point()
+```
+
+```{r}
+#Residuals vs fitted plot
+
+life_expectancy_lm |> 
+  augment() |> 
+  ggplot(aes(x = .fitted, y = .resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed", 
+             color = "red", lwd = 1.5)
+```
