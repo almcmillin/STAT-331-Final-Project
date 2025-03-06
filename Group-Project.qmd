@@ -121,6 +121,8 @@ full_data |>
 
 ## 2.2 Linear Regression
 
+For our regression, we want to regress life expectancy (response variable **y**) on seafood consumption (explanatory variable **x**). In order to create our linear regression, we must first make it so that we have one x value and one y value per country. This was done below by creating a new dataset, **full_data_avg**, where we took the average of life_expectancy and kg_seafood after grouping by country (since we want a single average for each country, essentially condensing the multiple observations for each country into one).
+
 ```{r}
 full_data_avg <- full_data |>
   group_by(country) |>
@@ -129,10 +131,22 @@ full_data_avg <- full_data |>
 
 life_expectancy_lm <- lm(avg_life_expectancy ~ avg_seafood_consumption, data = full_data_avg)
 
+broom::tidy(life_expectancy_lm)
+```
+
+Using this new dataset, we were able to create our linear model. This model tells us that a country with zero seafood consumption will have a life expectancy of 63.27 years on average. For each one kg increase in seafood consumption, life expectancy will rise by 0.15 years on average.
+
+## 2.3 Model Fit
+
+In order to see how well the model assesses our data, we must take a look at the full summary statistics of the model.
+
+```{r}
 summary(life_expectancy_lm)
 ```
 
-## 2.3 Model Fit
+Based on the summary statistics, we can see that the model has an R squared of 0.0755, which tells us the model accounts for only 7% of the variability in our response variable. Although the P-value for our explanatory variable is extremely small (telling us it is significant), the low R squared tells us other variables may have a much more significant impact on variability in life expectancy.
+
+In order to create a valid linear model, we must verify the data is linear. The graph below uses the full_data_avg dataset to create a simple scatterplot. Based on the scatterplot, the data looks relatively linear.
 
 ```{r}
 #Scatterplot to check if data is linear
@@ -142,6 +156,8 @@ full_data_avg |>
              y = avg_life_expectancy)) +
   geom_point()
 ```
+
+Another element needed for our linear model to be valid is equal variance. Below is a residuals vs. fitted plot. The points have equal variance, telling us the model is valid.
 
 ```{r}
 #Residuals vs fitted plot
