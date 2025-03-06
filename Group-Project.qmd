@@ -18,6 +18,7 @@ library(gganimate)
 library(glue)
 library(gifski)
 library(broom)
+library(kableExtra)
 
 seafood <- read_csv("fisfod_cons_pc.csv")
 lex <- read_csv("lex.csv")
@@ -168,4 +169,19 @@ life_expectancy_lm |>
   geom_point() +
   geom_hline(yintercept = 0, linetype = "dashed", 
              color = "red", lwd = 1.5)
+```
+
+```{r}
+var_response <- var(full_data_avg$avg_life_expectancy)
+var_fitted <- var(fitted(life_expectancy_lm))
+var_residuals <- var(residuals(life_expectancy_lm))
+
+variance_table <- data.frame(
+  Metric = c("Variance of Response", "Variance of Fitted Values", "Variance of Residuals"),
+  Variance = c(var_response, var_fitted, var_residuals))
+
+
+variance_table |>
+  kable("html", digits = 3, col.names = c("Metric", "Variance")) |>
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover"))
 ```
