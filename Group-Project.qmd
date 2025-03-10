@@ -129,7 +129,7 @@ full_data |>
   ease_aes('linear')
 ```
 
-This animated visualization explores this relationship year-by-year and the changes that occur. In the animation, we can see that life expectancy consistently increases each year -- this is largely due to overall health improvements worldwide as time goes on. Additionally, the amount of seafood consumption also increases intermittently. 
+This animated visualization explores this relationship year-by-year and the changes that occur. In the animation, we can see that life expectancy consistently increases each year -- this is largely due to overall health improvements worldwide as time goes on. Additionally, the amount of seafood consumption also increases intermittently.
 
 ## 2.2 Linear Regression
 
