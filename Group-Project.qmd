@@ -19,6 +19,7 @@ library(glue)
 library(gifski)
 library(broom)
 library(kableExtra)
+library(knitr)
 
 seafood <- read_csv("fisfod_cons_pc.csv")
 lex <- read_csv("lex.csv")
@@ -204,3 +205,81 @@ variance_table |>
 ```
 
 From our table, we can see that the variance of response is 71.64 and of that, only 5.41 is explained by our explanatory variable. The remaining 66.23 from the variance of residuals represents what is not being explained by seafood consumption. Since the variance of residuals is significantly greater than the variance of fitted values, this suggests that seafood consumption alone does not adequetely explain the differences in life expectancy across countries.
+
+# 3 Simulation
+
+## 3.1 Visualizing Simulations from the Model
+
+In this section, we want to test the effectiveness of our fit model by seeing if the model provides an accurate representation of our observed data. To begin our predictive checks, we must first generate predictions using our linear model.
+
+```{r}
+pred_life_expectancy <- predict(life_expectancy_lm)
+```
+
+Now that we have our predicted data using our linear model made from our observed data, we must now add random error to the predictions.
+
+```{r}
+est_sigma <- sigma(life_expectancy_lm)
+```
+
+We can now create a function that will add the normal random error to our predictions.
+
+```{r}
+#Function found in Chapter 10 reading
+
+rand_error <- function(x, mean = 0, sd){
+  
+   x + rnorm(length(x), 
+            mean, 
+            sd)
+}
+
+sim_response <- tibble(sim_life_expect = rand_error(pred_life_expectancy,
+                                            sd = est_sigma))
+```
+
+We now have a dataset containing simulated values! To make an accurate comparison, we can merge this dataset with our original data.
+
+```{r}
+comparison_data <- full_data_avg |> 
+  select(avg_life_expectancy, avg_seafood_consumption) |> 
+  bind_cols(sim_response)
+```
+
+Using this data, we can create two side-by-side plots that will show us how
+
+```{r}
+#| layout-ncol: 2
+#| fig-cap: 
+#|   - "Plot of Observed Data"
+#|   - "Plot of Simulated Data"
+
+observed_plot <- comparison_data |>
+  ggplot(aes(x = avg_seafood_consumption,
+             y = avg_life_expectancy)) +
+  geom_point() + 
+  geom_smooth(method = "lm") +
+  labs(x = "Avg. Seafood Consumption (kg)",
+       y = NULL,
+       subtitle = "Avg. Life Expectancy (years)",
+       title = "Relationship between seafood consumption and life expectancy")
+
+simulated_plot <- comparison_data |>
+  ggplot(aes(x = avg_seafood_consumption,
+             y = sim_life_expect)) +
+  geom_point() + 
+  geom_smooth(method = "lm") +
+  labs(x = "Avg. Seafood Consumption (kg)",
+       y = NULL,
+       subtitle = "Avg. Simulated Life Expectancy (years)",
+       title = "Relationship between seafood consumption and simulated life expectancy")
+
+plot(observed_plot)
+plot(simulated_plot)
+
+
+```
+
+The datapoints in the simulated data appear to be a lot more dispersed and have a lot more variation compared to the observed data on the left, which has a lot more clustering. There are a few more high outliers on the y-axis in the simulated data compared to the observed data as well.
+
+## 3.2 Generating Multiple Predictive Checks
