@@ -29,9 +29,7 @@ lex <- read_csv("lex.csv")
 
 #### Data Sources
 
-// state as a research question then mention gapminder for intro
-
-This analysis examines two datasets from Gapminder: life expectancy at birth and fish and seafood consumption per capita. Gapminder, an independent foundation, compiles data from multiple sources, filling gaps to create comprehensive historical datasets. Notably, the country variable in both datasets reflects current geopolitical boundaries.
+This analysis examines the relationship between life expectancy at birth and fish and seafood consumption per capita. Both datasets were sourced from Gapminder, an independent foundation, who compiles data from multiple sources, filling gaps to create comprehensive historical datasets. Notably, the country variable in both datasets reflects current geopolitical boundaries.
 
 #### Life Expectancy Dataset
 
@@ -59,8 +57,6 @@ seafood[-1] <- seafood[-1] |>
 
 ## 1.2 Pivoting Longer
 
-// don't need writing
-
 To successfully merge the two datasets, we must first convert them from a wide format to a long format. In their current structure, each dataset contains a single column for the country, while the remaining columns correspond to different years. If we were to attempt a direct join in this wide format, we would end up with multiple columns for each year---one from each dataset---making it challenging to distinguish which values belong to which dataset.
 
 By pivoting the datasets to a long format, we restructure the data so that instead of having separate columns for each year, we create two columns: one for the year and another for the corresponding value (either life expectancy or seafood consumption). This transformation standardizes the structure of both datasets, allowing for a clean and efficient merge based on country and year. As a result, each row will uniquely represent a specific country-year combination, with separate columns indicating life expectancy and seafood consumption, facilitating a clearer and more interpretable analysis.
@@ -81,15 +77,9 @@ seafood_long <- seafood |>
 
 ## 1.3 Joining Data
 
-// don't need first paragraph
+The life expectancy dataset spans from 1800 to 2100, while the seafood consumption dataset covers the years 1961 to 2018. Since these datasets have different time ranges, we are only analyzing data for years that are present in both datasets---specifically, the period from 1961 to 2018. This approach prevents us from introducing missing values into our analysis and ensures that every observation contains both life expectancy and seafood consumption data.
 
-Now that we have transformed both datasets into a long format, we can proceed with merging them to perform our analysis. To ensure consistency, we will use an inner join, which retains only the observations that appear in both datasets.
-
-// be brief, don't reference inner join/code
-
-The life expectancy dataset spans from 1800 to 2100, while the seafood consumption dataset covers the years 1961 to 2018. Since these datasets have different time ranges, an inner join ensures that we only analyze data for years that are present in both datasets---specifically, the period from 1961 to 2018. This approach prevents us from introducing missing values into our analysis and ensures that every observation contains both life expectancy and seafood consumption data.
-
-By merging the datasets in this manner, we create a refined dataset where each row represents a unique country-year combination, with corresponding values for both variables. This standardized structure allows us to effectively explore the relationship between seafood consumption and life expectancy across different countries and time periods.
+By merging the datasets, we create a refined dataset where each row represents a unique country-year combination, with corresponding values for both variables. This standardized structure allows us to effectively explore the relationship between seafood consumption and life expectancy across different countries and time periods.
 
 ```{r}
 full_data <- life_expectancy_long |>
@@ -102,9 +92,7 @@ full_data <- life_expectancy_long |>
 
 In this section, we aim to visualize the relationship between our variables.
 
-Below is a graph that shows the relationship between seafood consumption in kg and life expectancy in years for data from different countries and years.
-
-// be specific that each point is a different country/year
+Below is a graph that shows the relationship between seafood consumption in kg and life expectancy in years for data from different countries and years. Each point represents information from a specific country in a specific year.
 
 ```{r}
 full_data |>
@@ -120,9 +108,7 @@ full_data |>
 
 This visualization suggests that there is a positive correlation between country's seafood consumption and their resident's life expectancy. However, the scatterplot reveals that there is a lot of variability in the data as higher seafood consumption often is associated with moderate life expectancy.
 
-// be clear that each point is a country now
-
-Below is an animation showing the relationship between seafood consumption and life expectancy for different countries year by year.
+Below is an animation showing the relationship between seafood consumption and life expectancy for different countries year by year. Each point represents a country and the animation shows the change in trends by year.
 
 ```{r}
 # RUNNING THIS CHUNK WILL MAKE A LOT OF IMAGES
@@ -142,15 +128,11 @@ full_data |>
   ease_aes('linear')
 ```
 
-This animated visualization explores this relationship year-by-year and the changes that occur. In the animation, we can see that life expectancy consistently increases each year -- this is largely due to overall health improvements worldwide as time goes on. Additionally, the amount of seafood consumption also increases intermittently.
-
-// does relationship change over the years
+This animated visualization explores this relationship year-by-year and the changes that occur. In the animation, we can see that life expectancy consistently increases each year -- this is largely due to overall health improvements worldwide as time goes on. Additionally, the amount of seafood consumption also increases intermittently. There is not an obvious change in the relationship between life expectancy and seafood consumption throughout the years.
 
 ## 2.2 Linear Regression
 
-// don't reference dataset or variables
-
-For our regression, we want to regress life expectancy (response variable **y**) on seafood consumption (explanatory variable **x**). In order to create our linear regression, we must first make it so that we have one x value and one y value per country. This was done below by creating a new dataset, **full_data_avg**, where we took the average of life_expectancy and kg_seafood after grouping by country (since we want a single average for each country, essentially condensing the multiple observations for each country into one).
+For our regression, we want to regress life expectancy on seafood consumption. In order to create our linear regression, we want each data point to represent on country. This was done below by creating a new dataset where we took the average of life expectancy and seafood consumption after grouping by country (since we want a single average for each country, essentially condensing the multiple observations for each country into one).
 
 ```{r}
 full_data_avg <- full_data |>
@@ -165,7 +147,18 @@ broom::tidy(life_expectancy_lm)
 
 Using this new dataset, we were able to create our linear model. This model tells us that a country with zero seafood consumption will have a life expectancy of 63.27 years on average. For each one kg increase in seafood consumption, life expectancy will rise by 0.15 years on average.
 
-// move scatterplot of avg data with line to here
+```{r}
+#Scatterplot to check if data is linear
+
+full_data_avg |>
+  ggplot(aes(x = avg_seafood_consumption,
+             y = avg_life_expectancy)) +
+  geom_point() +
+  labs(title = "Relationship between average seafood consumption and average life expectancy",
+       subtitle = "Average Life expectancy",
+       x = "Average Seafood Consumption",
+       y = NULL)
+```
 
 ## 2.3 Model Fit
 
@@ -177,16 +170,7 @@ summary(life_expectancy_lm)
 
 Based on the summary statistics, we can see that the model has an R squared of 0.0755, which tells us the model accounts for only 7% of the variability in our response variable. Although the P-value for our explanatory variable is extremely small (telling us it is significant), the low R squared tells us other variables may have a much more significant impact on variability in life expectancy.
 
-In order to create a valid linear model, we must verify the data is linear. The graph below uses the full_data_avg dataset to create a simple scatterplot. Based on the scatterplot, the data looks relatively linear.
-
-```{r}
-#Scatterplot to check if data is linear
-
-full_data_avg |>
-  ggplot(aes(x = avg_seafood_consumption,
-             y = avg_life_expectancy)) +
-  geom_point()
-```
+In order to create a valid linear model, we verified that the data is linear. Based on the scatterplot above, the data looks relatively linear.
 
 Another element needed for our linear model to be valid is equal variance. Below is a residuals vs. fitted plot. The points have equal variance, telling us the model is valid.
 
@@ -198,7 +182,8 @@ life_expectancy_lm |>
   ggplot(aes(x = .fitted, y = .resid)) +
   geom_point() +
   geom_hline(yintercept = 0, linetype = "dashed", 
-             color = "red", lwd = 1.5)
+             color = "red", lwd = 1.5) +
+  labs(title = "Fitted vs. Residuals Plot")
 ```
 
 Below is a table that summarizes the variance of response, fitted values, and residuals which gives us information on the model's effectiveness.
@@ -301,33 +286,35 @@ The datapoints in the simulated data appear to be a lot more dispersed and have 
 ## 3.2 Generating Multiple Predictive Checks
 
 ```{r}
-coefs <- as.numeric(coef(life_expectancy_lm))  
-residual_sd <- summary(life_expectancy_lm)$sigma
+coefs <- life_expectancy_lm |>
+  tidy() |>
+  pull(estimate)
+
+residual_sd <- life_expectancy_lm |>
+  glance() |>
+  pull(sigma)
 
 rand_error <- function(x, mean = 0, sd) {
   x + rnorm(length(x), mean, sd)
 }
 
-num_simulations <- 1000
-r2_values <- numeric(num_simulations)
+set.seed(4403)
 
-set.seed(4403)  
-for (i in 1:num_simulations) {
-  simulated_life_expectancy <- rand_error(
-    coefs[1] + coefs[2] * full_data_avg$avg_seafood_consumption,
-    sd = residual_sd)
-  
-  sim_model <- lm(full_data_avg$avg_life_expectancy ~ simulated_life_expectancy)  
-  r2_values[i] <- summary(sim_model)$r.squared
-}
-
-r2_df <- data.frame(R2 = r2_values)
+r2_df <- tibble(simulation = 1:1000) |> 
+  mutate(simulated_life_expectancy = map(simulation, 
+                                         ~ tibble(simulated = rand_error(coefs[1] + coefs[2] * full_data_avg$avg_seafood_consumption, 
+                                      sd = residual_sd))),
+    sim_model = map(simulated_life_expectancy, 
+                    ~ lm(full_data_avg$avg_life_expectancy ~ simulated, 
+                         data = .)),
+    R2 = map_dbl(sim_model, ~ summary(.)$r.squared)) |> 
+  select(R2)
 
 ggplot(r2_df, aes(x = R2)) +
-  geom_histogram(binwidth = 0.02, fill = "turquoise", color = "black") +
-  labs(title = "Histogram of R^2 Values from Simulation",
+  geom_histogram(binwidth = 0.02) +
+  labs(title = "R^2 Values from Simulation",
        x = "R^2 Value", y = "Frequency") +
   theme_minimal()
 ```
 
-In the graph above we compare our fitted model with a models with random variance in which it output $R^2$ values that represents the amount of variance explained from our fitted model. As we can see, a large proportion of the R2  values (600+) were 0.00 meaning that nearly none of the variance was explained by the model and it more simmlar to the random variance model. The graph is heavily skewed to the right meaning that there is little to no instances where that graph explains the variance for the data. Seeing that we have extremely low R2 values, we have strong evidence that seafood consumption is not correlated with life expectancy. 
+In the graph above we compare our fitted model with models with random variance and output the amount of variance explained from our fitted model. As we can see, a large proportion of the $R^2$ values (600+) were 0.00 meaning that nearly none of the variance was explained by the model and it is more simmlar to the random variance model. The graph is heavily skewed to the right meaning that there is little to no instances where that graph explains the variance for the data. Seeing that we have extremely low $R^2$ values, we conclude that seafood consumption is not correlated with life expectancy. 
