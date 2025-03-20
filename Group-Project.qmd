@@ -249,7 +249,7 @@ comparison_data <- full_data_avg |>
   bind_cols(sim_response)
 ```
 
-Using this data, we can create two side-by-side plots that will show us how
+Using this data, we can create two side-by-side plots that will show us how life expectancy changes as seafood consumption changes. The left plot is created using our observed data, and the right plot represents the same, but it uses our simulated life expectancy. Both graphs include a linear regression (LM) line to represent the trend. Each point represents a specific country in a specific year.
 
 ```{r}
 #| layout-ncol: 2
@@ -317,4 +317,4 @@ ggplot(r2_df, aes(x = R2)) +
   theme_minimal()
 ```
 
-In the graph above we compare our fitted model with models with random variance and output the amount of variance explained from our fitted model. As we can see, a large proportion of the $R^2$ values (600+) were 0.00 meaning that nearly none of the variance was explained by the model and it is more simmlar to the random variance model. The graph is heavily skewed to the right meaning that there is little to no instances where that graph explains the variance for the data. Seeing that we have extremely low $R^2$ values, we conclude that seafood consumption is not correlated with life expectancy. 
+In the graph above we compare our fitted model with models with random variance and output the amount of variance explained from our fitted model. As we can see, a large proportion of the $R^2$ values (600+) were 0.00 meaning that nearly none of the variance was explained by the model and it is more simmlar to the random variance model. The graph is heavily skewed to the right meaning that there is little to no instances where that graph explains the variance for the data. Seeing that we have extremely low $R^2$ values, we conclude that seafood consumption is not correlated with life expectancy.
