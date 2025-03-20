@@ -33,11 +33,11 @@ This analysis examines the relationship between life expectancy at birth and fis
 
 #### Life Expectancy Dataset
 
-This dataset provides the expected lifespan of a newborn based on birth year and country. It spans from 1800 to 2100, covering 196 countries. There is no additional information on the original source of data.
+This dataset (Rosling, 2023) provides the expected lifespan of a newborn based on birth year and country. It spans from 1800 to 2100, covering 196 countries. There is no additional information on the original source of data.
 
 #### Fish and Seafood Consumption Dataset
 
-This dataset records the average annual per capita availability of fish and seafood (in kilograms), accounting for imports and domestic production while excluding exports, animal feed, and distribution losses. While this measure reflects overall supply rather than direct consumption, it offers a useful proxy. The dataset spans from 1961 to 2018 and includes 170 countries. There is no additional information on the original source of data.
+This dataset (U. 2021) records the average annual per capita availability of fish and seafood (in kilograms), accounting for imports and domestic production while excluding exports, animal feed, and distribution losses. While this measure reflects overall supply rather than direct consumption, it offers a useful proxy. The dataset spans from 1961 to 2018 and includes 170 countries. There is no additional information on the original source of data.
 
 #### Hypothesis
 
@@ -317,4 +317,15 @@ ggplot(r2_df, aes(x = R2)) +
   theme_minimal()
 ```
 
+<<<<<<< HEAD
 In the graph above we compare our fitted model with models with random variance and output the amount of variance explained from our fitted model. As we can see, a large proportion of the $R^2$ values (600+) were 0.00 meaning that nearly none of the variance was explained by the model and it is more simmlar to the random variance model. The graph is heavily skewed to the right meaning that there is little to no instances where that graph explains the variance for the data. Seeing that we have extremely low $R^2$ values, we conclude that seafood consumption is not correlated with life expectancy.
+=======
+In the graph above we compare our fitted model with models with random variance and output the amount of variance explained from our fitted model. As we can see, a large proportion of the $R^2$ values (600+) were 0.00 meaning that nearly none of the variance was explained by the model and it is more simmlar to the random variance model. The graph is heavily skewed to the right meaning that there is little to no instances where that graph explains the variance for the data. Seeing that we have extremely low $R^2$ values, we conclude that seafood consumption is not correlated with life expectancy. 
+
+## References
+
+Rosling, O. (2023). Life Expectancy Dataset (Version v12) [Dataset]. Gapminder. https://www.gapminder.org/data/
+
+U., J. (2021). Fish Consumption Dataset (Version v1) [Dataset]. Gapminder. https://www.gapminder.org/data/
+
+>>>>>>> 5b3b5c9c3e5e840e5d901883e7afffb1461c9bc3
